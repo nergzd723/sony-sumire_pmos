@@ -1,0 +1,52 @@
+# Contributor: mm <mm@gg.com>
+# Maintainer: mm <mm@gg.com>
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm64/configs/(CHANGEME!)
+
+pkgname="linux-sony-sumire"
+pkgver=3.10.84
+pkgrel=0
+pkgdesc="Sony Xperia Z5 kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="sony-sumire"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps"
+makedepends="gcc4 linux-headers lz4 bash bc bison devicepkg-dev flex openssl-dev perl"
+# Compiler: this kernel was only tested with GCC6. Feel free to make a merge
+# request if you find out that it is booting working with newer GCCs as
+# well. See <https://postmarketos.org/vendorkernel> for instructions.
+if [ "${CC:0:5}" != "gcc4-" ]; then
+	CC="gcc4-$CC"
+	HOSTCC="gcc4-gcc"
+	CROSS_COMPILE="gcc4-$CROSS_COMPILE"
+fi
+
+# Source
+_repository="android_kernel_sony_msm8994"
+_commit="5b827a6bc6c2472c531748fd07d4383d64916afe"
+_config="config-$_flavor.$arch"
+source="
+	$pkgname-$_commit.tar.gz::https://github.com/LineageOS/$_repository/archive/$_commit.tar.gz
+	$_config
+"
+builddir="$srcdir/$_repository-$_commit"
+
+prepare() {
+	default_prepare
+	downstreamkernel_prepare "$srcdir" "$builddir" "$_config" "$_carch" "$HOSTCC"
+}
+
+build() {
+	unset LDFLAGS
+	make ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+}
+
+package() {
+	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
+}
+
+sha512sums="a1bf3563547acb52e5b7b117b89baecf31bdf86ac51d47b748ce988af363a21e5a2c832b9035965bd9c6cc4d3e293b0ae0bd71b7240579b68d9f5c488edce448  linux-sony-sumire-5b827a6bc6c2472c531748fd07d4383d64916afe.tar.gz
+6c6504795f2c57b236a5fe73a8d55987617b3230588c4ca259dcef3d7749c885bf8b46f252ec33337db8a6e886622c34fe51596543461da8b5e35bce49e86cbf  config-sony-sumire.aarch64"

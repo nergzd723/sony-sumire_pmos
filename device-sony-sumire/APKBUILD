@@ -1,0 +1,32 @@
+# Contributor: mm mm <mm@mm.mm>
+# Maintainer: mm mm <mm@mm.mm> 
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="device-sony-sumire"
+pkgdesc="Sony Xperia Z5"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="postmarketos-base linux-sony-sumire mkbootimg mesa-dri-swrast mkbootimg msm-fb-refresher"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+
+nonfree_firmware() {
+	pkgdesc="Wifi firmware"
+	depends="firmware-aosp-broadcom-wlan"
+	mkdir "$subpkgdir"
+}
+
+sha512sums="fa334f0ee8a8511f20c9aacdee8697443e456408b0dde5f6a73136a7323a2f1f1677b9d7658e8cf32b7cedeb57627c6cbd945e07e30aa39278bae5137f592df3  deviceinfo"
