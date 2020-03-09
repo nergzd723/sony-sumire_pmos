@@ -15,8 +15,20 @@ source="
 	deviceinfo
 	90-android-touch-dev.rules
 	bcmdhd.cal
+	wlan_macaddr0
+	wlan_txpower_2_4g
+	wlan_txpower_5g_low
+	wlan_txpower_5g_mid
+	wlan_txpower_5g_high
+	wlan_txpower_co1_2_4g
+	wlan_txpower_co1_5g_high
+	wlan_txpower_co1_5g_mid
+	wlan_txpower_co1_5g_low
 "
-subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-symlink
+"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -28,9 +40,32 @@ package() {
 		"$pkgdir"/etc/udev/rules.d/90-android-touch-dev.rules
 	install -D -m644 "$srcdir"/bcmdhd.cal \
 		"$pkgdir"/etc/wifi/bcmdhd.cal
+	install -D -m644 "$srcdir"/wlan_macaddr0 \
+                "$pkgdir"/etc/wlan_macaddr0
+	install -D -m644 "$srcdir"/wlan_txpower_2_4g \
+                "$pkgdir"/etc/wlan_txpower_2_4g
+	install -D -m644 "$srcdir"/wlan_txpower_5g_low \
+                "$pkgdir"/etc/wlan_txpower_5g_low 
+	install -D -m644 "$srcdir"/wlan_txpower_5g_mid  \
+                "$pkgdir"/etc/wlan_txpower_5g_mid
+	install -D -m644 "$srcdir"/wlan_txpower_5g_high \
+                "$pkgdir"/etc/wlan_txpower_5g_high
+	install -D -m644 "$srcdir"/wlan_txpower_co1_2_4g \
+                "$pkgdir"/etc/wlan_txpower_co1_2_4g
+	install -D -m644 "$srcdir"/wlan_txpower_co1_5g_high \
+                "$pkgdir"/etc/wlan_txpower_co1_5g_high
+	install -D -m644 "$srcdir"/wlan_txpower_co1_5g_low \
+                "$pkgdir"/etc/wlan_txpower_co1_5g_low
+	install -D -m644 "$srcdir"/wlan_txpower_co1_5g_mid \
+                "$pkgdir"/etc/wlan_txpower_co1_5g_mid
+
+
 }
 
-
+symlink()
+{
+	install="$subpkgname.post-install"
+}
 nonfree_firmware() {
 	pkgdesc="Wifi firmware"
 	depends="firmware-aosp-broadcom-wlan"
@@ -39,4 +74,13 @@ nonfree_firmware() {
 
 sha512sums="3ec4b0e1b66edddf8447614b9e76a9a84e7898f500b95fce93d90c6ae5c6170d20249d11c1c92e9752a2f46220c865beb50ca151aed68a4016bbf9d2d4add469  deviceinfo
 8b6034c0338ab4c7d648f47983aad6da07e427e7dba47baabf85a1b3ddeeda47c8d7fbcd547a302c9a759b2943ee30d3e82c3b368d8582833a058e4671638a9e  90-android-touch-dev.rules
-3314a921e1b0276509861f1c5951b59754d667fdab6de867da7fc88ecfaf3af7100e650b05bcc3febc7dca4ee9ed89c73704a64c4c3837ee90362a582f7b847e  bcmdhd.cal"
+4ffaf1e9596876dc9e1c00c06f060439e671e0eb4103c9be9770adda7283ece16a80eb94dca6e62d4290103a758bf05c39075eb4242bc16ce6dc01d8191831aa  bcmdhd.cal
+b4ab2443b7a2e661f1a2b02788336e8dcf9b0052559fc52848b42f039b03fb57cf600a094bc30fe02b366ac7c4d6ba389107ab946cb89fff9dcbe6181494fdd2  wlan_macaddr0
+764e4556b8d604280c860282198eb94a179f27992d986784408370d20452c5ccfa5fa36fb6395e0176db902e05fac56c03ca38171cc32892352d40475d8465c0  wlan_txpower_2_4g
+b398cca4ddb0c1c45bb2da734d7547fa3637e89be6257acdd57b22e7b94cdff51574af2edc37cd0a9cf196cc3d54c58d8ad21dd3e2cb8bfc03585e21f8c5b818  wlan_txpower_5g_low
+b398cca4ddb0c1c45bb2da734d7547fa3637e89be6257acdd57b22e7b94cdff51574af2edc37cd0a9cf196cc3d54c58d8ad21dd3e2cb8bfc03585e21f8c5b818  wlan_txpower_5g_mid
+b398cca4ddb0c1c45bb2da734d7547fa3637e89be6257acdd57b22e7b94cdff51574af2edc37cd0a9cf196cc3d54c58d8ad21dd3e2cb8bfc03585e21f8c5b818  wlan_txpower_5g_high
+783aa7d829249ae1521882ec48e9b7978818aca44046ca9f8dd96994873dc317c0723df4c5a72486312f40a007eae382149edc13e8ebecf3637cd1f388337a2e  wlan_txpower_co1_2_4g
+b398cca4ddb0c1c45bb2da734d7547fa3637e89be6257acdd57b22e7b94cdff51574af2edc37cd0a9cf196cc3d54c58d8ad21dd3e2cb8bfc03585e21f8c5b818  wlan_txpower_co1_5g_high
+b398cca4ddb0c1c45bb2da734d7547fa3637e89be6257acdd57b22e7b94cdff51574af2edc37cd0a9cf196cc3d54c58d8ad21dd3e2cb8bfc03585e21f8c5b818  wlan_txpower_co1_5g_mid
+b398cca4ddb0c1c45bb2da734d7547fa3637e89be6257acdd57b22e7b94cdff51574af2edc37cd0a9cf196cc3d54c58d8ad21dd3e2cb8bfc03585e21f8c5b818  wlan_txpower_co1_5g_low"
