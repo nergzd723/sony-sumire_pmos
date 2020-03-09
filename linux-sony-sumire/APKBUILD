@@ -17,18 +17,18 @@ makedepends="gcc4 linux-headers lz4 bash bc bison devicepkg-dev flex openssl-dev
 # Compiler: this kernel was only tested with GCC6. Feel free to make a merge
 # request if you find out that it is booting working with newer GCCs as
 # well. See <https://postmarketos.org/vendorkernel> for instructions.
-if [ "${CC:0:5}" != "gcc4-" ]; then
-	CC="gcc4-$CC"
-	HOSTCC="gcc4-gcc"
-	CROSS_COMPILE="gcc4-$CROSS_COMPILE"
-fi
+#if [ "${CC:0:5}" != "gcc4-" ]; then
+#	CC="gcc4-$CC"
+#	HOSTCC="gcc4-gcc"
+#	CROSS_COMPILE="gcc4-$CROSS_COMPILE"
+#fi
 
 # Source
-_repository="android_kernel_sony_msm8994"
-_commit="5b827a6bc6c2472c531748fd07d4383d64916afe"
+_repository="CarbonKernel_Z5"
+_commit="ddd42861dec7c18f87b4668d1b9e49140385eabc"
 _config="config-$_flavor.$arch"
 source="
-	$pkgname-$_commit.tar.gz::https://github.com/LineageOS/$_repository/archive/$_commit.tar.gz
+	$pkgname-$_commit.tar.gz::https://github.com/x0r3d/$_repository/archive/$_commit.tar.gz
 	$_config
 "
 builddir="$srcdir/$_repository-$_commit"
@@ -48,5 +48,5 @@ package() {
 	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
 }
 
-sha512sums="a1bf3563547acb52e5b7b117b89baecf31bdf86ac51d47b748ce988af363a21e5a2c832b9035965bd9c6cc4d3e293b0ae0bd71b7240579b68d9f5c488edce448  linux-sony-sumire-5b827a6bc6c2472c531748fd07d4383d64916afe.tar.gz
-cd80e5ae764fcbaf4f6af550dc0213ec3b56d34e044209a3e7182ce4bc6b476550679480bf9dd2b37d771eb7ba557c3465105515f2b539c36f7a93cf0e7f2b2d  config-sony-sumire.aarch64"
+sha512sums="684302b18b96b28672d1a7637a7f7ddce28409dcc29265677d3d45383cc947b297a062bfbe0831ae0b852b2eb174b8ff7516de4ade8f0ad3f941234ced343db7  linux-sony-sumire-ddd42861dec7c18f87b4668d1b9e49140385eabc.tar.gz
+56d8c14dbbcba9d65fe1769297db205e74418fb08b057c1c5231536efdf49461905efb9bd5740132f45655889fdd025c336c3d6e6d6d0581a5c72c89517c2bb9  config-sony-sumire.aarch64"
